@@ -25,12 +25,26 @@ async function run() {
     const districtCollection = database.collection("district");
     const upojelaCollection = database.collection("upojela");
     const locationCollection = database.collection("location");
+    const branchCollection = database.collection("branch");
+    const pickUpRequestCollection = database.collection("pickUp-request");
     // userInformationCollection =======================================
     // POST user information API
     app.post("/userInformation", async (req, res) => {
       const userInformation = req.body;
       const result = await userInformationCollection.insertOne(userInformation);
       res.json(result);
+    });
+    // POST pick up request api API
+    app.post("/pickUpRequest", async (req, res) => {
+      const pickUpRequest = req.body;
+      const result = await pickUpRequestCollection.insertOne(pickUpRequest);
+      res.json(result);
+    });
+    // GET all pickup request API
+    app.get("/pickUpRequest", async (req, res) => {
+      const cursor = pickUpRequestCollection.find({});
+      const pickupRequest = await cursor.toArray();
+      res.json(pickupRequest);
     });
 
     // configuration ============================================
@@ -75,6 +89,12 @@ async function run() {
     app.post("/addNewLocation", async (req, res) => {
       const userInformation = req.body;
       const result = await locationCollection.insertOne(userInformation);
+      res.json(result);
+    });
+    // POST Create new branch
+    app.post("/createNewBranch", async (req, res) => {
+      const userInformation = req.body;
+      const result = await branchCollection.insertOne(userInformation);
       res.json(result);
     });
 
